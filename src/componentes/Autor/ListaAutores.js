@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import PubSub from 'pubsub-js';
 
 export default class ListaAutores extends Component {
 
@@ -12,15 +13,13 @@ export default class ListaAutores extends Component {
         $.ajax({
             url: `${this.props.UrlApi}/api/autores`,
             dataType: 'json',
-            success: (resposta) => {
-                this.props.atualizaLista(resposta);
+            success: (lista) => {
+                PubSub.publish('atualiza-lista-autores', lista);
             },
             error: (err) => {
                 console.error(`Não foi possível carregar os autores`);
 
-                this.props.atualizaLista([
-                    { nome: 'Não foi possível carregar' }
-                ]);
+                PubSub.publish('atualiza-lista-autores', [{ nome: 'Não foi possível carregar' }]);
             }
         });
     }

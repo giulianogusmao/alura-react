@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import $ from 'jquery';
+import PubSub from 'pubsub-js';
+
+import TrataErros from '../TrataErros/TrataErros';
 
 import InputCustomizado from '../InputCustomizado';
 import BtnSubmitCustomizado from '../BtnSubmitCustomizado';
@@ -34,15 +37,22 @@ export default class FormularioAutor extends Component {
             dataType: 'json',
             type: 'post',
             data: data,
-            success: (resposta) => {
-                // atualiza lista
-                this.props.atualizaLista(resposta);
-
+            success: (novaLista) => {
                 // limpa formulario
                 this.limpaFormulario();
+
+                // dispara evento com lista atualizada
+                PubSub.publish('atualiza-lista-autores', novaLista);
             },
             error: (resposta) => {
-                console.log("erro");
+                console.log(`Erro ao cadastrar autor -> ${resposta.responseJSON.message}`);
+
+                if (resposta.status === 400) {
+                    new TrataErros().publicaErros(resposta.responseJSON);
+                }
+            },
+            beforeSend: () => {
+                PubSub.publish('limpa-erros-validacao');
             }
         });
     }
@@ -72,7 +82,7 @@ export default class FormularioAutor extends Component {
             senha: evento.target.value
         });
     }
-    
+
 
     render() {
         return (
@@ -81,10 +91,10 @@ export default class FormularioAutor extends Component {
                 <InputCustomizado type="text" id="nome" label="Nome" placeholder="Nome" value={this.state.nome} onChange={this.setNome.bind(this)} />
 
                 {/* input Email */}
-                <InputCustomizado type="email" id="inputEmail" label="Email" placeholder="Email" value={this.state.email} onChange={this.setEmail.bind(this)} />
+                <InputCustomizado type="email" id="email" label="Email" placeholder="Email" value={this.state.email} onChange={this.setEmail.bind(this)} />
 
                 {/* input Senha */}
-                <InputCustomizado  type="password" id="inputSenha" label="Senha" placeholder="Senha" value={this.state.senha} onChange={this.setSenha.bind(this)} />
+                <InputCustomizado type="password" id="senha" label="Senha" placeholder="Senha" value={this.state.senha} onChange={this.setSenha.bind(this)} />
 
                 <div className="form-group">
                     <div className="text-right">

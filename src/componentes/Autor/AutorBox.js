@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PubSub from 'pubsub-js';
 
 import FormularioAutor from './FormularioAutor';
 import ListaAutores from './ListaAutores';
@@ -13,9 +14,12 @@ export default class AutorBox extends Component {
         };
 
         this.UrlApi = "http://cdc-react.herokuapp.com";
+    }
 
-        // define que a função sempre utilizará o this como o escopo da classe
-        this.atualizaLista = this.atualizaLista.bind(this);
+    componentDidMount() {
+        PubSub.subscribe('atualiza-lista-autores', (topico, lista) => {
+            this.atualizaLista(lista);
+        });
     }
 
     atualizaLista(novaLista) {
@@ -33,13 +37,13 @@ export default class AutorBox extends Component {
             <div className="app-autor">
                 {/* FORM cadastra autor */}
                 <div className="app-form app-form-autor">
-                    <FormularioAutor UrlApi={this.UrlApi} atualizaLista={this.atualizaLista} />
+                    <FormularioAutor UrlApi={this.UrlApi} />
                 </div>
                 {/* fim .app-form */}
 
                 {/* tabela lista autores */}
                 <div className="app-table app-table-autores">
-                    <ListaAutores UrlApi={this.UrlApi} atualizaLista={this.atualizaLista} lista={this.getLista()} />
+                    <ListaAutores UrlApi={this.UrlApi} lista={this.getLista()} />
                 </div>
                 {/* fim .app-table */}
             </div>
