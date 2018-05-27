@@ -36,7 +36,7 @@ export default class AutorBox extends Component {
     render() {
         return (
             <div className="app-autor">
-                <SectionBody titulo="Autor" component={
+                <SectionBody titulo="Cadastro de Autor" component={
                     <div className="row justify-content-center">
                         <div className="col col-sm-10 col-md-7 col-lg-5">
                             {/* FORM cadastra autor */}

@@ -23,7 +23,7 @@ class App extends Component {
             <div className="app-menu col-12 col-sm-3 col-md-2 px-0 bg-dark">
               <nav className="p-2">
                 <div className="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
-                  <Link className="nav-link text-white active" to="/">Home</Link>
+                  <Link className="nav-link text-white" to="/">Home</Link>
                   <Link className="nav-link text-white" to="/autor">Autor</Link>
                   <Link className="nav-link text-white" to="/livro">Livro</Link>
                 </div>

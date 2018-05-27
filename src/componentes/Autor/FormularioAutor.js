@@ -65,21 +65,9 @@ export default class FormularioAutor extends Component {
         });
     }
 
-    setNome(evento) {
+    setAlteracao(campo, evento) {
         this.setState({
-            nome: evento.target.value
-        });
-    }
-
-    setEmail(evento) {
-        this.setState({
-            email: evento.target.value
-        });
-    }
-
-    setSenha(evento) {
-        this.setState({
-            senha: evento.target.value
+            [campo]: evento.target.value
         });
     }
 
@@ -88,13 +76,13 @@ export default class FormularioAutor extends Component {
         return (
             <form onSubmit={this.gravaAutor.bind(this)} method="post">
                 {/* input Nome */}
-                <InputCustomizado type="text" id="nome" label="Nome" placeholder="Nome" value={this.state.nome} onChange={this.setNome.bind(this)} />
+                <InputCustomizado type="text" id="nome" label="Nome" placeholder="Nome" value={this.state.nome} onChange={this.setAlteracao.bind(this, 'nome')} />
 
                 {/* input Email */}
-                <InputCustomizado type="email" id="email" label="Email" placeholder="Email" value={this.state.email} onChange={this.setEmail.bind(this)} />
+                <InputCustomizado type="email" id="email" label="Email" placeholder="Email" value={this.state.email} onChange={this.setAlteracao.bind(this, 'email')} />
 
                 {/* input Senha */}
-                <InputCustomizado type="password" id="senha" label="Senha" placeholder="Senha" value={this.state.senha} onChange={this.setSenha.bind(this)} />
+                <InputCustomizado type="password" id="senha" label="Senha" placeholder="Senha" value={this.state.senha} onChange={this.setAlteracao.bind(this, 'senha')} />
 
                 <div className="form-group">
                     <div className="text-right">
